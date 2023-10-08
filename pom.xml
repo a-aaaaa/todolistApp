@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>test-security2db-thymeleaf</artifactId>
+    <artifactId>todolistApp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>test-security2db-thymeleaf</name>
     <description>test-security2db-thymeleaf</description>

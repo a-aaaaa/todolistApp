@@ -36,4 +36,7 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(targetEntity = Task.class, cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 }

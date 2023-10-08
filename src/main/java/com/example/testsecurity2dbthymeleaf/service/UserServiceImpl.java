@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,9 +37,15 @@ public class UserServiceImpl implements UserService {
 
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if (role == null) {
-            role = checkRoleExist();
+            role = setAdminRole();
         }
-        user.setRoles(Arrays.asList(role));
+        else {
+            role = roleRepository.findByName("USER");
+            if (role == null) {
+                role = setDefaultRole();
+            }
+        }
+        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
@@ -53,22 +58,28 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> mapToUserDto(user))
+                .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }
 
     private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
-        String str[] = user.getName().split(" ");
+        String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);
         userDto.setLastName(str[1]);
         userDto.setEmail(user.getEmail());
         return userDto;
     }
 
-    private Role checkRoleExist() {
+    private Role setAdminRole() {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
+        return roleRepository.save(role);
+    }
+
+    private Role setDefaultRole() {
+        Role role = new Role();
+        role.setName("USER");
         return roleRepository.save(role);
     }
 }
