@@ -1,7 +1,9 @@
 package com.example.testsecurity2dbthymeleaf.controller;
 
+import com.example.testsecurity2dbthymeleaf.entity.Action;
 import com.example.testsecurity2dbthymeleaf.entity.Task;
 import com.example.testsecurity2dbthymeleaf.entity.User;
+import com.example.testsecurity2dbthymeleaf.repository.LogsRepository;
 import com.example.testsecurity2dbthymeleaf.repository.TaskRepository;
 import com.example.testsecurity2dbthymeleaf.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,9 @@ public class TaskController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LogsRepository logsRepository;
 
     @GetMapping("/list")
     public ModelAndView getAllUserTasks() {
