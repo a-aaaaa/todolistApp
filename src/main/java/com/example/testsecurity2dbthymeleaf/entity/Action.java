@@ -24,4 +24,7 @@ public class Action {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private String userLogin;
 }

@@ -3,7 +3,7 @@ package com.example.testsecurity2dbthymeleaf.controller;
 import com.example.testsecurity2dbthymeleaf.entity.Action;
 import com.example.testsecurity2dbthymeleaf.entity.Task;
 import com.example.testsecurity2dbthymeleaf.entity.User;
-import com.example.testsecurity2dbthymeleaf.repository.LogsRepository;
+import com.example.testsecurity2dbthymeleaf.repository.ActionRepository;
 import com.example.testsecurity2dbthymeleaf.repository.TaskRepository;
 import com.example.testsecurity2dbthymeleaf.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class TaskController {
     private UserRepository userRepository;
 
     @Autowired
-    private LogsRepository logsRepository;
+    private ActionRepository actionRepository;
 
     @GetMapping("/list")
     public ModelAndView getAllUserTasks() {
@@ -60,6 +60,11 @@ public class TaskController {
         taskList.add(task);
         currentUser.setTasks(taskList);
         userRepository.save(currentUser);
+        Action action = new Action();
+        action.setActionDate(new Date());
+        action.setDescription("Create/update task");
+        action.setUserLogin(currentUser.getEmail());
+        actionRepository.save(action);
         return "redirect:/list";
     }
 
@@ -84,6 +89,11 @@ public class TaskController {
         currentUser.setTasks(userTasks);
         userRepository.save(currentUser);
         taskRepository.deleteById(taskId);
+        Action action = new Action();
+        action.setActionDate(new Date());
+        action.setDescription("Delete task");
+        action.setUserLogin(currentUser.getEmail());
+        actionRepository.save(action);
         return "redirect:/list";
     }
 }
